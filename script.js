@@ -43,7 +43,8 @@ var shiftUps = {
 };
 
 function worksheet(iter = 5) {
-    worksheet.innerHTML = "";
+    
+    
     const START_VAL = 100;
     
 
@@ -51,6 +52,7 @@ function worksheet(iter = 5) {
     let worksheet = document.getElementById("worksheet");
     let i = 1;
 
+    worksheet.innerHTML = "";
     while (difficulty >= 0) {
 
         clozed = "<h1>" + i.toString() + "</h1>" + cloze_it(difficulty);
