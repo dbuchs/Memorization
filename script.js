@@ -42,12 +42,30 @@ var shiftUps = {
     "47": "?"
 };
 
-function cloze_it() {
+function worksheet(iter = 5) {
+    const START_VAL = 100;
+    
+
+    let difficulty = START_VAL;
+    let worksheet = document.getElementById("worksheet");
+    let i = 1;
+
+    while (difficulty >= 0) {
+
+        clozed = "<h1>" + i.toString() + "</h1>" + cloze_it(difficulty);
+        worksheet.innerHTML += clozed + "<hr>";
+        difficulty = difficulty - (START_VAL / iter);
+        i++;
+    }
+
+
+
+}
+
+function cloze_it(difficulty) {
     i = 0;
 
     let text = document.getElementById("the_text");
-    let difficulty = document.getElementById("difficulty");
-    let clozed = document.getElementById("clozed");
 
     let original = text.value.replace(/(\r\n|\n|\r)/g, ' <br> ').split(' ');
     
@@ -56,7 +74,7 @@ function cloze_it() {
 
     for (var i = 0; i < original.length; i += 1) {
         if (original[i] != "<br>" && original[i].substr(0, 1) != '[') {
-            if (Math.floor(Math.random() * 100) > Math.floor(parseInt(difficulty.value))) {
+            if (Math.floor(Math.random() * 100) > Math.floor(parseInt(difficulty))) {
                 original[i] = "<span class='cloze'><span class='original'>" + original[i] + "</span><span class='clozed'>" + '_'.repeat(original[i].length) + "</span></span>";
                // console.log(original[i]);
             }
@@ -64,7 +82,8 @@ function cloze_it() {
 
     }
 
-    clozed.innerHTML = "<code><pre>" + original.join(' ') + "</code></pre>";
+    clozed = "<code><pre>" + original.join(' ') + "</code></pre>";
+    return clozed;
 }
 
 function tog() {
@@ -79,8 +98,11 @@ function tog() {
 }
 
 function submit() {
+    let difficulty = document.getElementById("difficulty");
+    let clozed = document.getElementById("clozed");
+
     tog();
-    cloze_it();
+    clozed.innerHTML = cloze_it(difficulty);
 }
 
 function next() {
@@ -91,7 +113,7 @@ function next() {
         clozed.innerHTML = "DONE!";
     } else {
         difficulty.value = parseInt(difficulty.value) - 10;
-        cloze_it();
+        clozed.innerHTML = cloze_it(difficulty.value);
     }
 }
 
