@@ -43,6 +43,7 @@ var shiftUps = {
 };
 
 function worksheet(iter = 5) {
+    worksheet.innerHTML = "";
     const START_VAL = 100;
     
 
