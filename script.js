@@ -42,7 +42,7 @@ var shiftUps = {
     "47": "?"
 };
 
-function worksheet(iter = 5) {
+function worksheet() {
     
     
     const START_VAL = 100;
@@ -50,16 +50,30 @@ function worksheet(iter = 5) {
 
     let difficulty = START_VAL;
     let worksheet = document.getElementById("worksheet");
+    let iter = document.getElementById("iter");
     let i = 1;
 
     worksheet.innerHTML = "";
-    while (difficulty >= 0) {
+    while (i <= iter.value) {
 
-        clozed = "<h1>" + i.toString() + "</h1>" + cloze_it(difficulty);
+        clozed = cloze_it(difficulty);
         worksheet.innerHTML += clozed + "<hr>";
-        difficulty = difficulty - (START_VAL / iter);
+        difficulty = difficulty - (START_VAL / iter.value);
         i++;
     }
+
+    const clipboardItem = new ClipboardItem({
+        "text/plain": new Blob(
+            [worksheet.innerText],
+            { type: "text/plain" }
+        ),
+        "text/html": new Blob(
+            [worksheet.outerHTML],
+            { type: "text/html" }
+        ),
+    });
+    
+    navigator.clipboard.write([clipboardItem]);
 
 
 
@@ -111,11 +125,12 @@ function submit() {
 function next() {
     let difficulty = document.getElementById("difficulty");
     let clozed = document.getElementById("clozed");
+    let iter = document.getElementById("iter");
 
     if (parseInt(difficulty.value) <= 10) {
         clozed.innerHTML = "DONE!";
     } else {
-        difficulty.value = parseInt(difficulty.value) - 10;
+        difficulty.value = parseInt(difficulty.value) - 100/iter.value;
         clozed.innerHTML = cloze_it(difficulty.value);
     }
 }
